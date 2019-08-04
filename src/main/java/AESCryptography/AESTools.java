@@ -1,7 +1,9 @@
 package AESCryptography;
 
 import javax.crypto.*;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -44,8 +46,9 @@ public class AESTools {
         String message = new String(Files.readAllBytes(Paths.get(fileLocation)));
         this.cipher.init(Cipher.ENCRYPT_MODE,this.key);
         byte[] secretBytes = this.cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
-        PrintWriter writer = new PrintWriter(cipherOutputName);
-        writer.println(secretBytes);
+        OutputStream outputStream = new FileOutputStream(cipherOutputName);
+        outputStream.write(secretBytes);
+        outputStream.close();
     }
 
     public byte[] decipherMessage(byte[] cipherBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
@@ -59,6 +62,7 @@ public class AESTools {
         String secretMessage = this.convertBytesToString(this.cipher.doFinal(bytes));
         PrintWriter writer = new PrintWriter(outFileName);
         writer.println(secretMessage);
+        writer.close();
     }
 
     public String convertBytesToString(byte[] decodedCipherBytes) throws BadPaddingException, IllegalBlockSizeException {
