@@ -1,10 +1,7 @@
 package AESCryptography;
 
 import javax.crypto.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -60,8 +57,8 @@ public class AESTools {
         byte[] bytes = Files.readAllBytes(Paths.get(fileLocation));
         this.cipher.init(Cipher.DECRYPT_MODE,this.key);
         String secretMessage = this.convertBytesToString(this.cipher.doFinal(bytes));
-        PrintWriter writer = new PrintWriter(outFileName);
-        writer.println(secretMessage);
+        FileWriter writer = new FileWriter(outFileName);
+        writer.write(secretMessage);
         writer.close();
     }
 
