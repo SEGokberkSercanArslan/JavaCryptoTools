@@ -73,7 +73,7 @@ public class RSATools {
     }
 
     public String convertBytesToString(byte[] decodedCipherBytes) throws BadPaddingException, IllegalBlockSizeException {
-        return new String(this.cipher.doFinal(decodedCipherBytes), StandardCharsets.UTF_8);
+        return new String(decodedCipherBytes, StandardCharsets.UTF_8);
     }
 
 }

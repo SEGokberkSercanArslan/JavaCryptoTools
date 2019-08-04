@@ -24,7 +24,7 @@ public class AESTools {
         this.keyGenerator = KeyGenerator.getInstance("AES");
         this.secureRandom = new SecureRandom();
         this.keyGenerator.init(256,this.secureRandom);
-        this.cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        this.cipher = Cipher.getInstance("AES");
         this.generateKey();
     }
 
@@ -66,7 +66,7 @@ public class AESTools {
     }
 
     public String convertBytesToString(byte[] decodedCipherBytes) throws BadPaddingException, IllegalBlockSizeException {
-        return new String(this.cipher.doFinal(decodedCipherBytes),StandardCharsets.UTF_8);
+        return new String(decodedCipherBytes,StandardCharsets.UTF_8);
     }
 
 
