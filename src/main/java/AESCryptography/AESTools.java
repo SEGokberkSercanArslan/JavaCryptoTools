@@ -25,21 +25,21 @@ public class AESTools {
         this.generateKey();
     }
 
-    private void generateKey(){
+    private final void generateKey(){
         this.key = keyGenerator.generateKey();
     }
 
-    public Key getAESKey(){
+    public final Key getAESKey(){
         return this.key;
     }
 
-    public byte[] cipherMessage(String message) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final byte[] cipherMessage(String message) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         this.cipher.init(Cipher.ENCRYPT_MODE,this.key);
         return this.cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
     }
 
     // Output name must be txt or relevant extension
-    public void cipherMessage(String fileLocation, String cipherOutputName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final void cipherMessage(String fileLocation, String cipherOutputName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         String message = new String(Files.readAllBytes(Paths.get(fileLocation)));
         this.cipher.init(Cipher.ENCRYPT_MODE,this.key);
         byte[] secretBytes = this.cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
@@ -48,12 +48,12 @@ public class AESTools {
         outputStream.close();
     }
 
-    public byte[] decipherMessage(byte[] cipherBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final byte[] decipherMessage(byte[] cipherBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         this.cipher.init(Cipher.DECRYPT_MODE,this.key);
         return this.cipher.doFinal(cipherBytes);
     }
 
-    public void decipherMessage(String fileLocation,String outFileName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final void decipherMessage(String fileLocation,String outFileName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         byte[] bytes = Files.readAllBytes(Paths.get(fileLocation));
         this.cipher.init(Cipher.DECRYPT_MODE,this.key);
         String secretMessage = this.convertBytesToString(this.cipher.doFinal(bytes));
@@ -62,7 +62,7 @@ public class AESTools {
         writer.close();
     }
 
-    public String convertBytesToString(byte[] decodedCipherBytes) throws BadPaddingException, IllegalBlockSizeException {
+    public final String convertBytesToString(byte[] decodedCipherBytes) throws BadPaddingException, IllegalBlockSizeException {
         return new String(decodedCipherBytes,StandardCharsets.UTF_8);
     }
 

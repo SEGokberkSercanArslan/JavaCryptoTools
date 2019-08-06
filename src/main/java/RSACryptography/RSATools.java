@@ -31,25 +31,25 @@ public class RSATools {
         this.cipher =  Cipher.getInstance("RSA");
     }
 
-    public PublicKey getPublicKey(){
+    public final PublicKey getPublicKey(){
         return this.publicKey;
     }
 
-    public PrivateKey getPrivateKey(){
+    public final PrivateKey getPrivateKey(){
         return this.privateKey;
     }
 
-    private void generateKeys(){
+    private final void generateKeys(){
         this.publicKey = this.keyPair.getPublic();
         this.privateKey = this.keyPair.getPrivate();
     }
 
-    public byte[] cipherMessage(String message) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final byte[] cipherMessage(String message) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         this.cipher.init(Cipher.ENCRYPT_MODE,this.getPublicKey());
         return this.cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
     }
 
-    public void cipherMessage(String locationFile,String outputName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final void cipherMessage(String locationFile,String outputName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         String message = new String(Files.readAllBytes(Paths.get(locationFile)));
         this.cipher.init(Cipher.ENCRYPT_MODE,getPublicKey());
         byte [] secretBytes = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
@@ -58,12 +58,12 @@ public class RSATools {
         outputStream.close();
     }
 
-    public byte[] decipherMessage(byte[] secretBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final byte[] decipherMessage(byte[] secretBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         this.cipher.init(Cipher.DECRYPT_MODE,getPrivateKey());
         return cipher.doFinal(secretBytes);
     }
 
-    public void decipherMessage(String locationFile,String outputName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+    public final void decipherMessage(String locationFile,String outputName) throws IOException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         byte [] secretBytes = Files.readAllBytes(Paths.get(locationFile));
         this.cipher.init(Cipher.DECRYPT_MODE,getPrivateKey());
         byte [] decodedBytes = this.cipher.doFinal(secretBytes);
@@ -72,7 +72,7 @@ public class RSATools {
         fileWriter.close();
     }
 
-    public String convertBytesToString(byte[] decodedCipherBytes) throws BadPaddingException, IllegalBlockSizeException {
+    public final String convertBytesToString(byte[] decodedCipherBytes) throws BadPaddingException, IllegalBlockSizeException {
         return new String(decodedCipherBytes, StandardCharsets.UTF_8);
     }
 
